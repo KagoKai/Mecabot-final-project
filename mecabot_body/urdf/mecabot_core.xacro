@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="layer_l" value="0.255"/>
+    <xacro:property name="layer_w" value="0.15"/>
+    <xacro:property name="layer_h" value="0.002"/>
+
+    <xacro:property name="PI" value="3.1415926535897931" />
+    <xacro:property name="wheel_radius" value="0.03" />
+    <xacro:property name="wheel_height" value="0.03" />
+
+    <xacro:include filename="$(find mecabot_body)/urdf/includes/materials.xacro"/>
+    <xacro:include filename="$(find mecabot_body)/urdf/parts/pillar.xacro"/>
+    <xacro:include filename="$(find mecabot_body)/urdf/parts/layer.xacro"/>
+    <xacro:include filename="$(find mecabot_body)/urdf/wheels/wheel.xacro"/>
+    <!-- BASE LINK -->
+
+    <link name="base_link">
+        <collision>
+            <origin xyz="0.0 0.0 ${0.07/2}" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${layer_l} ${layer_w} 0.07"/>
+            </geometry>
+        </collision>
+    </link>
+
+   
+
+    <!-- LAYER AND PILLAR LINKS -->
+    <xacro:layer prefix="lower" parent="base" length="${layer_l}" width="${layer_w-wheel_height*2}" height="${layer_h}" reflect="0"/>
+
+    <xacro:pillar suffix="one" parent="base" side_FB="1" side_LR="0"/>
+    <xacro:pillar suffix="two" parent="base" side_FB="1" side_LR="1"/>
+    <xacro:pillar suffix="three" parent="base" side_FB="1" side_LR="-1"/>
+    <xacro:pillar suffix="four" parent="base" side_FB="-1" side_LR="0"/>
+    <xacro:pillar suffix="five" parent="base" side_FB="-1" side_LR="1"/>
+    <xacro:pillar suffix="six" parent="base" side_FB="-1" side_LR="-1"/>
+
+    <xacro:layer prefix="upper" parent="base" length="${layer_l}" width="${layer_w-wheel_height*2}" height="${layer_h}" reflect="1"></xacro:layer>
+
+    <!-- MECANUM WHEEL LINKS -->
+    <xacro:wheel prefix="front_left" parent="base" side_FB="1" side_LR="1"/> 
+    <xacro:wheel prefix="front_right" parent="base" side_FB="1" side_LR="-1"/>
+    <xacro:wheel prefix="back_left" parent="base" side_FB="-1" side_LR="1"/>
+    <xacro:wheel prefix="back_right" parent="base" side_FB="-1" side_LR="-1"/>
+
+
+</robot>

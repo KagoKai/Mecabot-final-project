@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_name">
+    
+    <xacro:property name="layer_l" value="0.255"/>
+    <xacro:property name="layer_w" value="0.15"/>
+    <xacro:property name="layer_h" value="0.001"/>
+
+    <xacro:property name="pillar_radius" value="0.001"/>
+    <xacro:property name="pillar_length" value="0.06"/>
+    <xacro:property name="pillar_mass" value="0.01"/>
+
+    <xacro:property name="pillar_offset_fr" value="${0.9*layer_l/2}"/>
+    <xacro:property name="pillar_offset_lr" value="${0.9*layer_w/2}"/>
+
+</robot>
