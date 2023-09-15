@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1
-        - /TF1/Frames1
+        - /TF1/Tree1
       Splitter Ratio: 0.5
     Tree Height: 422
   - Class: rviz/Views
@@ -127,15 +127,15 @@ Visualization Manager:
       Frames:
         All Enabled: false
         back_left_wheel_link:
-          Value: false
+          Value: true
         back_right_wheel_link:
-          Value: false
+          Value: true
         base_link:
           Value: false
         front_left_wheel_link:
-          Value: false
+          Value: true
         front_right_wheel_link:
-          Value: false
+          Value: true
         lower_layer_link:
           Value: false
         pillar_five_link:
@@ -157,7 +157,7 @@ Visualization Manager:
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: true
+      Show Names: false
       Tree:
         base_link:
           back_left_wheel_link:
@@ -215,9 +215,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4650007486343384
+      Pitch: 0.5647959113121033
       Target Frame: <Fixed Frame>
-      Yaw: 0.3668120503425598
+      Yaw: 5.334998607635498
     Saved: ~
 Window Geometry:
   Displays:
@@ -229,5 +229,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1908
-  X: 0
-  Y: 0
+  X: -32
+  Y: -32
