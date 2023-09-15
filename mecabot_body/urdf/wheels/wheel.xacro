@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:property name="motor_offset_z" value="0.012" />
+    <xacro:property name="motor_offset_z" value="0.009" />
 
     <xacro:property name="PI" value="3.1415926535897931" />
     <xacro:property name="wheel_radius" value="0.03" />
@@ -10,7 +10,7 @@
     <xacro:property name="wheel_mass" value="0.1" /> <!-- in kg-->
 
     <xacro:property name="wheel_offset_fb" value="0.06215"/>
-    <xacro:property name="wheel_offset_lr" value="0.062"/>
+    <xacro:property name="wheel_offset_lr" value="0.064"/>
 
     <xacro:macro name="cylinder_inertia" params="m r h">
         <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
@@ -25,13 +25,22 @@
         </xacro:macro>
 
         <link name="${prefix}_wheel_link">
+            <visual name="shaft">
+                <origin xyz="0.0 0.0 ${-1 * side_LR * wheel_thickness/2}"/>
+                <geometry>
+                    <cylinder radius="0.0025" length="0.02"/>
+                </geometry>
+                <material name="white">
+                    <color rgba="1.0 1.0 1.0 1.0"/>
+                </material>
+            </visual>
             <visual>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
                 </geometry>
                 <material name="yellow">
-                    <color rgba="${247/255} ${237/255} ${49/255} 1.0"/>
+                    <color rgba="${255/255} ${237/255} ${40/255} 1.0"/>
                 </material>
             </visual>
             <collision>

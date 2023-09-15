@@ -5,6 +5,10 @@
     <xacro:property name="layer_w" value="0.15"/>
     <xacro:property name="layer_h" value="0.002"/>
 
+    <xacro:property name="chassis_l" value="${layer_l}"/>
+    <xacro:property name="chassis_w" value="${layer_w}"/>
+    <xacro:property name="chassis_h" value="0.07"/>
+
     <xacro:property name="PI" value="3.1415926535897931" />
     <xacro:property name="wheel_radius" value="0.03" />
     <xacro:property name="wheel_height" value="0.03" />
@@ -17,9 +21,9 @@
 
     <link name="base_link">
         <collision>
-            <origin xyz="0.0 0.0 ${0.07/2}" rpy="0.0 0.0 0.0"/>
+            <origin xyz="0.0 0.0 ${chassis_h/2}" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <box size="${layer_l} ${layer_w} 0.07"/>
+                <box size="${chassis_l} ${chassis_w} ${chassis_h}"/>
             </geometry>
         </collision>
     </link>

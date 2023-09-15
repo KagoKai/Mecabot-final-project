@@ -3,11 +3,11 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
     <xacro:property name="pillar_radius" value="0.002"/>
-    <xacro:property name="pillar_length" value="0.065"/>
+    <xacro:property name="pillar_length" value="0.055"/>
     <xacro:property name="pillar_mass" value="0.01"/>
 
-    <xacro:property name="pillar_offset_fb" value="0.11"/>
-    <xacro:property name="pillar_offset_lr" value="0.06"/>
+    <xacro:property name="pillar_offset_fb" value="0.12"/>
+    <xacro:property name="pillar_offset_lr" value="0.055"/>
 
     <xacro:macro name="pillar" params="suffix parent side_FB side_LR">
 
@@ -23,8 +23,14 @@
                 </geometry>
                 <material name="pillar_color">
                     <color rgba="${255/255} ${108/255} ${12/255} 1.0"/>
-                  </material>
+                </material>
             </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${pillar_length/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${pillar_radius}" length="${pillar_length}"/>
+                </geometry>
+            </collision>
         </link>
 
         <joint name="${parent}_to_pillar_${suffix}_joint" type="fixed">

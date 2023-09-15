@@ -2,9 +2,25 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:property name="side_piece_size" value="0.032"/>
+    <xacro:property name="side_piece_size" value="0.02"/>
+
+    <xacro:property name="motor_l" value = "0.07"/>
+    <xacro:property name="motor_w" value = "0.022"/>
+    <xacro:property name="motor_h" value = "0.018"/>
+
+    <xacro:property name="motor_offset_fb" value = "0.04"/>
+    <xacro:property name="motor_offset_lr" value = "0.034"/>
+
     <xacro:macro name="base_color">
-        <color rgba="0.20 0.20 0.20 1.0"/>
+        <material name="metal">
+            <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="motor_color">
+        <material name="motor">
+            <color rgba="${247/255} ${200/255} ${60/255} 1.0"/>
+        </material>
     </xacro:macro>
 
     <xacro:macro name="layer" params="prefix parent length width height reflect">
@@ -17,6 +33,49 @@
                 </geometry>
                 <xacro:base_color/>
             </visual>
+
+            <xacro:if value="${prefix == 'upper'}"> 
+                <visual name="direction_piece">
+                    <origin xyz="${length/2-side_piece_size/2} 0.0 ${height/2}" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <box size="${side_piece_size} ${side_piece_size} ${height}"/>
+                    </geometry>
+                    <material name="header">
+                        <color rgba="1.0 0.0 0.0 1.0"/>
+                    </material>
+                </visual>
+            </xacro:if>
+
+            <xacro:if value="${prefix == 'lower'}">
+                <visual name="FL_motor">
+                    <origin xyz="${motor_offset_fb} ${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
+                    </geometry>
+                    <xacro:motor_color/>
+                </visual>
+                <visual name="FR_motor">
+                    <origin xyz="${motor_offset_fb} -${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
+                    </geometry>
+                    <xacro:motor_color/>
+                </visual>
+                <visual name="BL_motor">
+                    <origin xyz="-${motor_offset_fb} ${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
+                    </geometry>
+                    <xacro:motor_color/>
+                </visual>
+                <visual name="BR_motor">
+                    <origin xyz="-${motor_offset_fb} -${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
+                    </geometry>
+                    <xacro:motor_color/>
+                </visual>
+            </xacro:if>
 
             <visual name="${prefix}_top_left_piece">
                 <origin xyz="${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
@@ -66,12 +125,18 @@
                 <xacro:base_color/>
             </visual>
 
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${length} ${width + 2*side_piece_size} ${height}"/>
+                </geometry>
+            </collision>
         </link>
 
         <joint name="${parent}_to_${prefix}_layer_joint" type="fixed">
             <parent link="${parent}_link"/>
             <child link="${prefix}_layer_link"/>
-            <origin xyz="0 0 ${reflect*0.065}" rpy="0 0 0"/>
+            <origin xyz="0 0 ${reflect*0.055}" rpy="0 0 0"/>
         </joint>
 
     </xacro:macro>
