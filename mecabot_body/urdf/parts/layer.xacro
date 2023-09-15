@@ -9,93 +9,6 @@
 
     <xacro:macro name="layer" params="prefix parent length width height reflect">
 
-        <xacro:macro name="extra_pieces">
-            <link name="${prefix}_top_left_link">
-                <visual>
-                    <origin xyz="0.0 ${side_piece_size/2} 0.0" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <xacro:base_color/>
-                </visual>
-            </link>
-            <joint name="${prefix}_layer_to_top_left_joint" type="fixed">
-                <origin xyz="${length/2-side_piece_size/2} ${width/2} 0" rpy="0.0 0.0 0.0"/>
-                <parent link="${prefix}_layer_link"/>
-                <child link="${prefix}_top_left_link"/>
-            </joint>
-            <link name="${prefix}_top_right_link">
-                <visual>
-                    <origin xyz="0.0 -${side_piece_size/2} 0.0" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <xacro:base_color/>
-                </visual>
-            </link>
-            <joint name="${prefix}_layer_to_top_right_joint" type="fixed">
-                <origin xyz="${length/2-side_piece_size/2} -${width/2} 0" rpy="0.0 0.0 0.0"/>
-                <parent link="${prefix}_layer_link"/>
-                <child link="${prefix}_top_right_link"/>
-            </joint>
-            <link name="${prefix}_mid_left_link">
-                <visual>
-                    <origin xyz="0.0 ${side_piece_size/2} 0.0" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <xacro:base_color/>
-                </visual>
-            </link>
-            <joint name="${prefix}_layer_to_mid_left_joint" type="fixed">
-                <origin xyz="0.0 ${width/2} 0" rpy="0.0 0.0 0.0"/>
-                <parent link="${prefix}_layer_link"/>
-                <child link="${prefix}_mid_left_link"/>
-            </joint>
-            <link name="${prefix}_mid_right_link">
-                <visual>
-                    <origin xyz="0.0 -${side_piece_size/2} 0.0" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <xacro:base_color/>
-                </visual>
-            </link>
-            <joint name="${prefix}_layer_to_mid_right_joint" type="fixed">
-                <origin xyz="0.0 -${width/2} 0" rpy="0.0 0.0 0.0"/>
-                <parent link="${prefix}_layer_link"/>
-                <child link="${prefix}_mid_right_link"/>
-            </joint>
-            <link name="${prefix}_bot_left_link">
-                <visual>
-                    <origin xyz="0.0 ${side_piece_size/2} 0.0" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <xacro:base_color/>
-                </visual>
-            </link>
-            <joint name="${prefix}_layer_to_bot_left_joint" type="fixed">
-                <origin xyz="-${length/2-side_piece_size/2} ${width/2} 0" rpy="0.0 0.0 0.0"/>
-                <parent link="${prefix}_layer_link"/>
-                <child link="${prefix}_bot_left_link"/>
-            </joint>
-            <link name="${prefix}_bot_right_link">
-                <visual>
-                    <origin xyz="0.0 -${side_piece_size/2} 0.0" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <xacro:base_color/>
-                </visual>
-            </link>
-            <joint name="${prefix}_layer_to_bot_right_joint" type="fixed">
-                <origin xyz="-${length/2-side_piece_size/2} -${width/2} 0" rpy="0.0 0.0 0.0"/>
-                <parent link="${prefix}_layer_link"/>
-                <child link="${prefix}_bot_right_link"/>
-            </joint>
-        </xacro:macro>
-
         <link name="${prefix}_layer_link">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -104,9 +17,56 @@
                 </geometry>
                 <xacro:base_color/>
             </visual>
-        </link>
 
-        <xacro:extra_pieces/>
+            <visual name="${prefix}_top_left_piece">
+                <origin xyz="${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height}"/>
+                </geometry>
+                <xacro:base_color/>
+            </visual>
+
+            <visual name="${prefix}_top_right_piece">
+                <origin xyz="${length/2-side_piece_size/2} -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height}"/>
+                </geometry>
+                <xacro:base_color/>
+            </visual>
+
+            <visual name="${prefix}_mid_left_piece">
+                <origin xyz="0.0 ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
+                </geometry>
+                <xacro:base_color/>
+            </visual>
+
+            <visual name="${prefix}_mid_right_piece">
+                <origin xyz="0.0 -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
+                </geometry>
+                <xacro:base_color/>
+            </visual>
+
+            <visual name="${prefix}_bot_left_piece">
+                <origin xyz="-${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height}"/>
+                </geometry>
+                <xacro:base_color/>
+            </visual>
+
+            <visual name="${prefix}_bot_right_piece">
+                <origin xyz="-${length/2-side_piece_size/2} -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height}"/>
+                </geometry>
+                <xacro:base_color/>
+            </visual>
+
+        </link>
 
         <joint name="${parent}_to_${prefix}_layer_joint" type="fixed">
             <parent link="${parent}_link"/>
