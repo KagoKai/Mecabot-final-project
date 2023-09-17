@@ -2,10 +2,6 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:property name="pillar_radius" value="0.002"/>
-    <xacro:property name="pillar_length" value="0.055"/>
-    <xacro:property name="pillar_mass" value="0.005"/>
-
     <xacro:property name="pillar_offset_fb" value="0.12"/>
     <xacro:property name="pillar_offset_lr" value="0.055"/>
 
@@ -19,7 +15,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="pillar" params="suffix parent side_FB side_LR">
+    <xacro:macro name="pillar" params="suffix parent mass radius length side_FB side_LR">
 
         <xacro:property name="pillar_joint_origin">
             <origin xyz="${pillar_offset_fb*side_FB} ${pillar_offset_lr*side_LR} 0.0" rpy="0.0 0.0 0.0"/>
@@ -28,9 +24,9 @@
         <link name="pillar_${suffix}_link">
 
             <visual>
-                <origin xyz="0.0 0.0 ${pillar_length/2}" rpy="0.0 0.0 0.0"/>
+                <origin xyz="0.0 0.0 ${length/2}" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <cylinder radius="${pillar_radius}" length="${pillar_length}"/>
+                    <cylinder radius="${radius}" length="${length}"/>
                 </geometry>
                 <material name="pillar_color">
                     <color rgba="${255/255} ${108/255} ${12/255} 1.0"/>
@@ -38,14 +34,14 @@
             </visual>
 
             <collision>
-                <origin xyz="0.0 0.0 ${pillar_length/2}" rpy="0.0 0.0 0.0"/>
+                <origin xyz="0.0 0.0 ${length/2}" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <cylinder radius="${pillar_radius}" length="${pillar_length}"/>
+                    <cylinder radius="${radius}" length="${length}"/>
                 </geometry>
             </collision>
 
-            <xacro:inertial_cylinder mass="${pillar_mass}" radius="${pillar_radius}" length="${pillar_length}">
-                <origin xyz="0.0 0.0 ${pillar_length/2}" rpy="0.0 0.0 0.0"/>
+            <xacro:inertial_cylinder mass="${mass}" radius="${radius}" length="${length}">
+                <origin xyz="0.0 0.0 ${length/2}" rpy="0.0 0.0 0.0"/>
             </xacro:inertial_cylinder>
 
         </link>

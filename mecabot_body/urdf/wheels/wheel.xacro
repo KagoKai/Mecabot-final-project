@@ -2,13 +2,9 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:property name="motor_offset_z" value="0.009" />
-
     <xacro:property name="PI" value="3.1415926535897931" />
-    <xacro:property name="wheel_radius" value="0.03" />
-    <xacro:property name="wheel_thickness" value="0.031" />
-    <xacro:property name="wheel_mass" value="0.04" /> <!-- in kg-->
 
+    <xacro:property name="wheel_offset_z" value="0.009" />
     <xacro:property name="wheel_offset_fb" value="0.06215"/>
     <xacro:property name="wheel_offset_lr" value="0.064"/>
 
@@ -22,16 +18,16 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="wheel" params="prefix parent side_FB side_LR">
+    <xacro:macro name="wheel" params="prefix parent mass radius thickness side_FB side_LR">
 
         <xacro:property name="wheel_joint_origin">
-            <origin xyz="${wheel_offset_fb*side_FB} ${wheel_offset_lr*side_LR} -${motor_offset_z}" rpy="-${PI/2} 0.0 0.0"/>
+            <origin xyz="${wheel_offset_fb*side_FB} ${wheel_offset_lr*side_LR} -${wheel_offset_z}" rpy="-${PI/2} 0.0 0.0"/>
         </xacro:property>
 
         <link name="${prefix}_wheel_link">
 
             <visual name="shaft">
-                <origin xyz="0.0 0.0 ${-1 * side_LR * wheel_thickness/2}"/>
+                <origin xyz="0.0 0.0 ${-1 * side_LR * thickness/2}"/>
                 <geometry>
                     <cylinder radius="0.0025" length="0.02"/>
                 </geometry>
@@ -43,7 +39,7 @@
             <visual name="wheel">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+                    <cylinder radius="${radius}" length="${thickness}"/>
                 </geometry>
                 <material name="yellow">
                     <color rgba="${255/255} ${237/255} ${40/255} 1.0"/>
@@ -53,11 +49,11 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
-                    <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+                    <cylinder radius="${radius}" length="${thickness}"/>
                 </geometry>
             </collision>
 
-            <xacro:inertial_cylinder  mass="${wheel_mass}" radius="${wheel_radius}" length="${wheel_thickness}">
+            <xacro:inertial_cylinder  mass="${mass}" radius="${radius}" length="${thickness}">
                 <origin xyz="0 0 0" rpy="0 0 0"/>
             </xacro:inertial_cylinder>
   

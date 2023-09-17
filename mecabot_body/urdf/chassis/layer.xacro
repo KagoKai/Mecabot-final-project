@@ -11,8 +11,6 @@
     <xacro:property name="motor_offset_fb" value="0.04"/>
     <xacro:property name="motor_offset_lr" value="0.034"/>
 
-    <xacro:property name="layer_mass" value="0.07"/>
-
     <xacro:macro name="base_color">
         <material name="metal">
             <color rgba="0.5 0.5 0.5 1.0"/>
@@ -35,7 +33,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="layer" params="prefix parent length width height reflect">
+    <xacro:macro name="layer" params="prefix parent mass length width height reflect">
 
         <xacro:property name="layer_joint_origin">
             <origin xyz="0 0 ${reflect*0.055}" rpy="0 0 0"/>
@@ -167,7 +165,7 @@
                 </geometry>
             </collision>
             
-            <xacro:inertial_box mass="${layer_mass}" x="${length}" y="${width}" z="${height}">
+            <xacro:inertial_box mass="${mass}" x="${length}" y="${width}" z="${height}">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             </xacro:inertial_box>
 

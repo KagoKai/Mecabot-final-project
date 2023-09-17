@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_name">
-    
+            
+    <xacro:property name="PI" value="3.1415926535897931" />
+
+    <!-- Layer and chassis properties -->
     <xacro:property name="layer_l" value="0.255"/>
     <xacro:property name="layer_w" value="0.15"/>
-    <xacro:property name="layer_h" value="0.001"/>
+    <xacro:property name="layer_h" value="0.002"/>
+    <xacro:property name="layer_mass" value="0.07"/>
 
-    <xacro:property name="pillar_radius" value="0.001"/>
-    <xacro:property name="pillar_length" value="0.06"/>
-    <xacro:property name="pillar_mass" value="0.01"/>
+    <xacro:property name="chassis_l" value="${layer_l}"/>
+    <xacro:property name="chassis_w" value="${layer_w}"/>
+    <xacro:property name="chassis_h" value="0.07"/>
 
-    <xacro:property name="pillar_offset_fr" value="${0.9*layer_l/2}"/>
-    <xacro:property name="pillar_offset_lr" value="${0.9*layer_w/2}"/>
+    <!-- Wheel properties -->
+    <xacro:property name="wheel_radius" value="0.03" />
+    <xacro:property name="wheel_thickness" value="0.031" />
+    <xacro:property name="wheel_mass" value="0.04" /> <!-- in kg-->
+
+    <!-- Copper pillar properties -->
+    <xacro:property name="pillar_radius" value="0.002"/>
+    <xacro:property name="pillar_length" value="0.055"/>
+    <xacro:property name="pillar_mass" value="0.005"/>
 
 </robot>
