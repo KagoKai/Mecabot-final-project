@@ -36,7 +36,7 @@
                 </material>
             </visual>
 
-            <visual name="wheel">
+            <visual>
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <cylinder radius="${radius}" length="${thickness}"/>
@@ -75,5 +75,15 @@
 
         </joint>
 
+        <gazebo reference="${prefix}_wheel_link">
+            <material>Gazebo/Yellow</material>
+            <visual name="direction_piece_1">
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                </material>
+            </visual>
+        </gazebo>
+
     </xacro:macro>
+
 </robot>

@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /TF1
         - /TF1/Frames1
-        - /TF1/Tree1/base_link1
       Splitter Ratio: 0.5
     Tree Height: 422
   - Class: rviz/Views
@@ -216,9 +215,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.46979567408561707
+      Pitch: 0.5597957968711853
       Target Frame: <Fixed Frame>
-      Yaw: 5.145002841949463
+      Yaw: 5.685004234313965
     Saved: ~
 Window Geometry:
   Displays:

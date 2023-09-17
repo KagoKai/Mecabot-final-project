@@ -56,6 +56,10 @@
 
         </joint>
 
+        <gazebo reference="pillar_${suffix}_link">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+
     </xacro:macro>
     
 </robot>

@@ -12,8 +12,8 @@
     <xacro:property name="motor_offset_lr" value="0.034"/>
 
     <xacro:macro name="base_color">
-        <material name="metal">
-            <color rgba="0.5 0.5 0.5 1.0"/>
+        <material name="blue">
+            <color rgba="0.0 0.2 1.0 1.0"/>
         </material>
     </xacro:macro>
 
@@ -110,47 +110,48 @@
                 </visual>
             </xacro:if>
 
-            <visual name="${prefix}_top_left_piece">
+            <!-- Top left piece -->
+            <visual>
                 <origin xyz="${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
                 <xacro:base_color/>
             </visual>
-
-            <visual name="${prefix}_top_right_piece">
+            <!-- Top right piece -->
+            <visual>
                 <origin xyz="${length/2-side_piece_size/2} -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
                 <xacro:base_color/>
             </visual>
-
-            <visual name="${prefix}_mid_left_piece">
+            <!-- Middle left piece -->
+            <visual>
                 <origin xyz="0.0 ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
                 </geometry>
                 <xacro:base_color/>
             </visual>
-
-            <visual name="${prefix}_mid_right_piece">
+            <!-- Middle right piece -->
+            <visual>
                 <origin xyz="0.0 -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
                 </geometry>
                 <xacro:base_color/>
             </visual>
-
-            <visual name="${prefix}_bot_left_piece">
+            <!-- Bottom left piece -->
+            <visual>
                 <origin xyz="-${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
                 <xacro:base_color/>
             </visual>
-
-            <visual name="${prefix}_bot_right_piece">
+            <!-- Bottom right piece -->
+            <visual>
                 <origin xyz="-${length/2-side_piece_size/2} -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
@@ -180,6 +181,21 @@
             <xacro:insert_block name="layer_joint_origin"/>
 
         </joint>
+
+        <gazebo reference="${prefix}_layer_link">
+            <material>Gazebo/Blue</material>
+            <visual name="direction_piece_1">
+                <material>
+                    <diffuse>0 0 0 1</diffuse>
+                </material>
+            </visual>
+            <visual name="direction_piece_2">
+                <material>Gazebo/Red</material>
+            </visual>
+            <visual name="direction_piece_3">
+                <material>Gazebo/Red</material>
+            </visual>
+        </gazebo>
 
     </xacro:macro>
     
