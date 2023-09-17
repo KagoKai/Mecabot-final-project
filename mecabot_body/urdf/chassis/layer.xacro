@@ -49,36 +49,6 @@
                 <xacro:base_color/>
             </visual>
 
-            <xacro:if value="${prefix == 'upper'}"> 
-                <visual name="direction_piece_1">
-                    <origin xyz="${length/2-side_piece_size/2} 0.0 ${height/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height/2}"/>
-                    </geometry>
-                    <material name="header">
-                        <color rgba="1.0 0.0 0.0 1.0"/>
-                    </material>
-                </visual>
-                <visual name="direction_piece_2">
-                    <origin xyz="${length/2-1.5*side_piece_size} ${width/2-side_piece_size/2} ${height/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height/2}"/>
-                    </geometry>
-                    <material name="header">
-                        <color rgba="1.0 0.0 0.0 1.0"/>
-                    </material>
-                </visual>
-                <visual name="direction_piece_3">
-                    <origin xyz="${length/2-1.5*side_piece_size} -${width/2-side_piece_size/2} ${height/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${side_piece_size} ${side_piece_size} ${height}"/>
-                    </geometry>
-                    <material name="header">
-                        <color rgba="1.0 0.0 0.0 1.0"/>
-                    </material>
-                </visual>
-            </xacro:if>
-
             <xacro:if value="${prefix == 'lower'}">
                 <visual name="FL_motor">
                     <origin xyz="${motor_offset_fb} ${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
@@ -184,18 +154,71 @@
 
         <gazebo reference="${prefix}_layer_link">
             <material>Gazebo/Blue</material>
-            <visual name="direction_piece_1">
-                <material>
-                    <diffuse>0 0 0 1</diffuse>
+        </gazebo>
+
+        <xacro:if value="${prefix == 'upper'}"> 
+
+        <link name="direction_piece_1">
+            <visual>
+                <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height/2}"/>
+                </geometry>
+                <material name="header">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
                 </material>
             </visual>
-            <visual name="direction_piece_2">
-                <material>Gazebo/Red</material>
-            </visual>
-            <visual name="direction_piece_3">
-                <material>Gazebo/Red</material>
-            </visual>
+        </link>
+        <joint name="direction_piece_1_joint" type="fixed">
+            <origin xyz="${length/2-side_piece_size/2} 0.0 ${height/2}" rpy="0.0 0.0 0.0"/>
+            <parent link="${prefix}_layer_link"/>
+            <child link="direction_piece_1"/>
+        </joint>
+        <gazebo reference="direction_piece_1">
+            <material>Gazebo/Red</material>
         </gazebo>
+
+        <link name="direction_piece_2">
+            <visual>
+                <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height/2}"/>
+                </geometry>
+                <material name="header">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
+                </material>
+            </visual>
+        </link>
+        <joint name="direction_piece_2_joint" type="fixed">
+            <origin xyz="${length/2-1.5*side_piece_size} ${width/2-side_piece_size/2} ${height/2}" rpy="0.0 0.0 0.0"/>
+            <parent link="${prefix}_layer_link"/>
+            <child link="direction_piece_2"/>
+        </joint>
+        <gazebo reference="direction_piece_2">
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <link name="direction_piece_3">
+            <visual>
+                <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${side_piece_size} ${side_piece_size} ${height}"/>
+                </geometry>
+                <material name="header">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
+                </material>
+            </visual>
+        </link>
+        <joint name="direction_piece_3_joint" type="fixed">
+            <origin xyz="${length/2-1.5*side_piece_size} -${width/2-side_piece_size/2} ${height/2}" rpy="0.0 0.0 0.0"/>
+            <parent link="${prefix}_layer_link"/>
+            <child link="direction_piece_3"/>
+        </joint>
+        <gazebo reference="direction_piece_3">
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+    </xacro:if>
 
     </xacro:macro>
     
