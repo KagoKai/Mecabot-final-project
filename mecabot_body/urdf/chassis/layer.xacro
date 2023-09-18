@@ -11,16 +11,39 @@
     <xacro:property name="motor_offset_fb" value="0.04"/>
     <xacro:property name="motor_offset_lr" value="0.034"/>
 
-    <xacro:macro name="base_color">
+    <xacro:property name="shaft_radius" value="0.0025"/>
+    <xacro:property name="shaft_length" value="0.02"/>
+    <xacro:property name="shaft_offset_fb" value="0.06215"/>
+
+    <xacro:property name="base_material">
         <material name="blue">
             <color rgba="0.0 0.2 1.0 1.0"/>
         </material>
-    </xacro:macro>
+    </xacro:property>
 
-    <xacro:macro name="motor_color">
-        <material name="motor">
+    <xacro:property name="motor_material">
+        <material name="motor_yellow">
             <color rgba="${247/255} ${200/255} ${60/255} 1.0"/>
         </material>
+    </xacro:property>
+
+    <xacro:macro name="motor_visual" params="name side_FB side_LR">
+        <visual name="${name}">
+            <origin xyz="${motor_offset_fb*side_FB} ${motor_offset_lr*side_LR} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${motor_l} ${motor_w} ${motor_h}"/>
+            </geometry>
+            <xacro:insert_block name="motor_material"/>
+        </visual>
+        <visual name="${name}_shaft">
+            <origin xyz="${shaft_offset_fb*side_FB} ${(motor_offset_lr + shaft_length)*side_LR} -${motor_h/2}" rpy="-${PI/2} 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="${shaft_radius}" length="${shaft_length}"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1.0 1.0 1.0 1.0"/>
+            </material>
+        </visual>
     </xacro:macro>
 
     <xacro:macro name="inertial_box" params="mass x y z *origin">
@@ -46,38 +69,14 @@
                 <geometry>
                     <box size="${length} ${width} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
 
             <xacro:if value="${prefix == 'lower'}">
-                <visual name="FL_motor">
-                    <origin xyz="${motor_offset_fb} ${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
-                    </geometry>
-                    <xacro:motor_color/>
-                </visual>
-                <visual name="FR_motor">
-                    <origin xyz="${motor_offset_fb} -${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
-                    </geometry>
-                    <xacro:motor_color/>
-                </visual>
-                <visual name="BL_motor">
-                    <origin xyz="-${motor_offset_fb} ${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
-                    </geometry>
-                    <xacro:motor_color/>
-                </visual>
-                <visual name="BR_motor">
-                    <origin xyz="-${motor_offset_fb} -${motor_offset_lr} -${motor_h/2}" rpy="0.0 0.0 0.0"/>
-                    <geometry>
-                        <box size="${motor_l} ${motor_w} ${motor_h}"/>
-                    </geometry>
-                    <xacro:motor_color/>
-                </visual>
+                <xacro:motor_visual name="FL_motor" side_FB="1" side_LR="1"/>
+                <xacro:motor_visual name="FR_motor" side_FB="1" side_LR="-1"/>
+                <xacro:motor_visual name="BL_motor" side_FB="-1" side_LR="1"/>
+                <xacro:motor_visual name="BR_motor" side_FB="-1" side_LR="-1"/>
             </xacro:if>
 
             <!-- Top left piece -->
@@ -86,7 +85,7 @@
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
             <!-- Top right piece -->
             <visual>
@@ -94,7 +93,7 @@
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
             <!-- Middle left piece -->
             <visual>
@@ -102,7 +101,7 @@
                 <geometry>
                     <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
             <!-- Middle right piece -->
             <visual>
@@ -110,7 +109,7 @@
                 <geometry>
                     <box size="${side_piece_size*1.8} ${side_piece_size} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
             <!-- Bottom left piece -->
             <visual>
@@ -118,7 +117,7 @@
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
             <!-- Bottom right piece -->
             <visual>
@@ -126,7 +125,7 @@
                 <geometry>
                     <box size="${side_piece_size} ${side_piece_size} ${height}"/>
                 </geometry>
-                <xacro:base_color/>
+                <xacro:insert_block name="base_material"/>
             </visual>
 
             <collision>

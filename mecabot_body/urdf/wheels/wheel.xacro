@@ -69,19 +69,13 @@
 
             <axis xyz="0 0 1" rpy="0 0 0" />
 
-            <limit effort="100" velocity="100"/>
-
-            <joint_properties damping="0.0" friction="0.0"/>
+            <dynamic damping="0.01" friction="0.0"/>
 
         </joint>
 
         <gazebo reference="${prefix}_wheel_link">
             <material>Gazebo/Yellow</material>
-            <visual name="direction_piece_1">
-                <material>
-                    <diffuse>0 0 0 1</diffuse>
-                </material>
-            </visual>
+            
         </gazebo>
 
     </xacro:macro>

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="PI" value="3.1415926535897931" />
+
+    <xacro:property name="wheel_offset_z" value="0.009" />
+    <xacro:property name="wheel_offset_fb" value="0.06215"/>
+    <xacro:property name="wheel_offset_lr" value="0.064"/>
+
+    <xacro:macro name="inertial_cylinder" params="mass radius length *origin">
+        <inertial>
+            <xacro:insert_block name="origin"/>
+            <mass value="${mass}" />
+            <inertia ixx="${(1/12) * mass * (3*radius*radius + length*length)}" ixy="0.0" ixz="0.0"
+                    iyy="${(1/12) * mass * (3*radius*radius + length*length)}" iyz="0.0"
+                    izz="${(1/2) * mass * (radius*radius)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="mecanum_wheel" params="prefix parent mass radius thickness side_FB side_LR">
+
+        <xacro:property name="wheel_joint_origin">
+            <origin xyz="${wheel_offset_fb*side_FB} ${wheel_offset_lr*side_LR} -${wheel_offset_z}" rpy="-${PI/2} 0.0 0.0"/>
+        </xacro:property>
+
+        <link name="${prefix}_wheel_link">
+            <visual>
+                <xacro:if value="${side_FB == 1}">
+                    <origin xyz="0.0 0.0 0.0" rpy="${PI} 0.0 0.0"/>
+                    <geometry>
+                        <xacro:if value="${side_LR == 1}">
+                            <mesh filename="package://mecabot_body/meshes/mecanum_wheel_2.stl" scale="0.001 0.001 0.001"/>
+                        </xacro:if>
+                        <xacro:if value="${side_LR == -1}">
+                            <mesh filename="package://mecabot_body/meshes/mecanum_wheel_1.stl" scale="0.001 0.001 0.001"/>
+                        </xacro:if>
+                    </geometry>
+                </xacro:if>
+                <xacro:if value="${side_FB == -1}">
+                    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <xacro:if value="${side_LR == 1}">
+                            <mesh filename="package://mecabot_body/meshes/mecanum_wheel_1.stl" scale="0.001 0.001 0.001"/>
+                        </xacro:if>
+                        <xacro:if value="${side_LR == -1}">
+                            <mesh filename="package://mecabot_body/meshes/mecanum_wheel_2.stl" scale="0.001 0.001 0.001"/>
+                        </xacro:if>
+                    </geometry>
+                </xacro:if>
+                <material name="yellow">
+                    <color rgba="${255/255} ${237/255} ${40/255} 1.0"/>
+                </material>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <cylinder radius="${radius}" length="${thickness}"/>
+                </geometry>
+            </collision>
+
+            <xacro:inertial_cylinder  mass="${mass}" radius="${radius}" length="${thickness}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_cylinder>
+  
+        </link>
+
+        <joint name="${prefix}_wheel_joint" type="continuous">
+
+            <parent link="${parent}_link"/>
+
+            <child link="${prefix}_wheel_link"/>
+
+            <xacro:insert_block name="wheel_joint_origin" />
+
+            <axis xyz="0 0 1" rpy="0 0 0" />
+
+            <dynamic damping="0.01" friction="0.0"/>
+
+        </joint>
+
+        <gazebo reference="${prefix}_wheel_link">
+            <material>Gazebo/Yellow</material>
+        </gazebo>
+
+    </xacro:macro>
+
+</robot>

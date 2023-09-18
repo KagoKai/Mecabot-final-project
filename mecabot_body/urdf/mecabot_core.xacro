@@ -7,6 +7,7 @@
     <xacro:include filename="$(find mecabot_body)/urdf/chassis/pillar.xacro"/>
     <xacro:include filename="$(find mecabot_body)/urdf/chassis/layer.xacro"/>
     <xacro:include filename="$(find mecabot_body)/urdf/wheels/wheel.xacro"/>
+    <xacro:include filename="$(find mecabot_body)/urdf/wheels/mecanum_wheel.xacro"/>
 
     <!-- BASE LINK -->
 
@@ -40,13 +41,13 @@
                 length="${layer_l}" width="${layer_w-wheel_thickness*2}" height="${layer_h}" reflect="1"/>
 
     <!-- MECANUM WHEEL LINKS -->
-    <xacro:wheel prefix="front_left" parent="base" mass="${wheel_mass}" 
+    <xacro:mecanum_wheel prefix="front_left" parent="base" mass="${wheel_mass}" 
                 radius="${wheel_radius}" thickness="${wheel_thickness}" side_FB="1" side_LR="1"/> 
-    <xacro:wheel prefix="front_right" parent="base" mass="${wheel_mass}" 
+    <xacro:mecanum_wheel prefix="front_right" parent="base" mass="${wheel_mass}" 
                 radius="${wheel_radius}" thickness="${wheel_thickness}" side_FB="1" side_LR="-1"/>
-    <xacro:wheel prefix="back_left" parent="base" mass="${wheel_mass}" 
+    <xacro:mecanum_wheel prefix="back_left" parent="base" mass="${wheel_mass}" 
                 radius="${wheel_radius}" thickness="${wheel_thickness}" side_FB="-1" side_LR="1"/>
-    <xacro:wheel prefix="back_right" parent="base" mass="${wheel_mass}" 
+    <xacro:mecanum_wheel prefix="back_right" parent="base" mass="${wheel_mass}" 
                 radius="${wheel_radius}" thickness="${wheel_thickness}" side_FB="-1" side_LR="-1"/>
 
 
