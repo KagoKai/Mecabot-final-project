@@ -4,5 +4,7 @@
     ],
     "python.analysis.extraPaths": [
         "/opt/ros/noetic/lib/python3/dist-packages"
-    ]
+    ],
+    "cmake.sourceDirectory": "/home/kagokai/dev_ws/src/mecabot_body",
+    "C_Cpp.errorSquiggles": "enabled"
 }

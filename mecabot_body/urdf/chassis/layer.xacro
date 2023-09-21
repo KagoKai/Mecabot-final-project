@@ -2,19 +2,6 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:property name="side_piece_size" value="0.03"/>
-
-    <xacro:property name="motor_l" value="0.07"/>
-    <xacro:property name="motor_w" value="0.022"/>
-    <xacro:property name="motor_h" value="0.018"/>
-
-    <xacro:property name="motor_offset_fb" value="0.04"/>
-    <xacro:property name="motor_offset_lr" value="0.034"/>
-
-    <xacro:property name="shaft_radius" value="0.0025"/>
-    <xacro:property name="shaft_length" value="0.02"/>
-    <xacro:property name="shaft_offset_fb" value="0.06215"/>
-
     <xacro:property name="base_material">
         <material name="blue">
             <color rgba="0.0 0.2 1.0 1.0"/>
@@ -46,23 +33,13 @@
         </visual>
     </xacro:macro>
 
-    <xacro:macro name="inertial_box" params="mass x y z *origin">
-        <inertial>
-            <xacro:insert_block name="origin"/>
-            <mass value="${mass}" />
-            <inertia ixx="${(1/12) * mass * (y*y+z*z)}" ixy="0.0" ixz="0.0"
-                    iyy="${(1/12) * mass * (x*x+z*z)}" iyz="0.0"
-                    izz="${(1/12) * mass * (x*x+y*y)}" />
-        </inertial>
-    </xacro:macro>
-
     <xacro:macro name="layer" params="prefix parent mass length width height reflect">
 
         <xacro:property name="layer_joint_origin">
             <origin xyz="0 0 ${reflect*0.055}" rpy="0 0 0"/>
         </xacro:property>
 
-        <link name="${prefix}_layer_link">
+        <link name="${prefix}_link">
 
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -72,14 +49,14 @@
                 <xacro:insert_block name="base_material"/>
             </visual>
 
-            <xacro:if value="${prefix == 'lower'}">
+            <xacro:if value="${prefix == 'lower_layer'}">
                 <xacro:motor_visual name="FL_motor" side_FB="1" side_LR="1"/>
                 <xacro:motor_visual name="FR_motor" side_FB="1" side_LR="-1"/>
                 <xacro:motor_visual name="BL_motor" side_FB="-1" side_LR="1"/>
                 <xacro:motor_visual name="BR_motor" side_FB="-1" side_LR="-1"/>
             </xacro:if>
 
-            <!-- Top left piece -->
+            <!-- Front left piece -->
             <visual>
                 <origin xyz="${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
@@ -87,7 +64,7 @@
                 </geometry>
                 <xacro:insert_block name="base_material"/>
             </visual>
-            <!-- Top right piece -->
+            <!-- Front right piece -->
             <visual>
                 <origin xyz="${length/2-side_piece_size/2} -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
@@ -111,7 +88,7 @@
                 </geometry>
                 <xacro:insert_block name="base_material"/>
             </visual>
-            <!-- Bottom left piece -->
+            <!-- Back left piece -->
             <visual>
                 <origin xyz="-${length/2-side_piece_size/2} ${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
@@ -119,7 +96,7 @@
                 </geometry>
                 <xacro:insert_block name="base_material"/>
             </visual>
-            <!-- Bottom right piece -->
+            <!-- Back right piece -->
             <visual>
                 <origin xyz="-${length/2-side_piece_size/2} -${width/2+side_piece_size/2} 0" rpy="0.0 0.0 0.0"/>
                 <geometry>
@@ -141,21 +118,21 @@
 
         </link>
 
-        <joint name="${parent}_to_${prefix}_layer_joint" type="fixed">
+        <joint name="${parent}_to_${prefix}_joint" type="fixed">
 
             <parent link="${parent}_link"/>
 
-            <child link="${prefix}_layer_link"/>
+            <child link="${prefix}_link"/>
 
             <xacro:insert_block name="layer_joint_origin"/>
 
         </joint>
 
-        <gazebo reference="${prefix}_layer_link">
+        <gazebo reference="${prefix}_link">
             <material>Gazebo/Blue</material>
         </gazebo>
 
-        <xacro:if value="${prefix == 'upper'}"> 
+        <xacro:if value="${prefix == 'upper_layer'}"> 
 
         <link name="direction_piece_1">
             <visual>
@@ -170,7 +147,7 @@
         </link>
         <joint name="direction_piece_1_joint" type="fixed">
             <origin xyz="${length/2-side_piece_size/2} 0.0 ${height/2}" rpy="0.0 0.0 0.0"/>
-            <parent link="${prefix}_layer_link"/>
+            <parent link="${prefix}_link"/>
             <child link="direction_piece_1"/>
         </joint>
         <gazebo reference="direction_piece_1">
@@ -190,7 +167,7 @@
         </link>
         <joint name="direction_piece_2_joint" type="fixed">
             <origin xyz="${length/2-1.5*side_piece_size} ${width/2-side_piece_size/2} ${height/2}" rpy="0.0 0.0 0.0"/>
-            <parent link="${prefix}_layer_link"/>
+            <parent link="${prefix}_link"/>
             <child link="direction_piece_2"/>
         </joint>
         <gazebo reference="direction_piece_2">
@@ -210,7 +187,7 @@
         </link>
         <joint name="direction_piece_3_joint" type="fixed">
             <origin xyz="${length/2-1.5*side_piece_size} -${width/2-side_piece_size/2} ${height/2}" rpy="0.0 0.0 0.0"/>
-            <parent link="${prefix}_layer_link"/>
+            <parent link="${prefix}_link"/>
             <child link="direction_piece_3"/>
         </joint>
         <gazebo reference="direction_piece_3">

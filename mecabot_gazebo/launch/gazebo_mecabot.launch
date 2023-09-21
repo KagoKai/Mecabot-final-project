@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <launch>
   
+    <arg name="config" default="urdf"/>
+    <arg name="rvizconfig" default="$(find mecabot_body)/rviz/urdf.rviz" />
+
     <arg name="urdf_file" default="$(find xacro)/xacro '$(find mecabot_body)/urdf/mecabot.urdf.xacro'" />
   
     <arg name="debug" default="false"/>
@@ -10,7 +13,7 @@
     <arg name="headless" default="false"/>
 
     <!-- Default world name -->
-    <arg name="world_name" default="$(find mecabot_gazebo)/worlds/empty.world"/>
+    <arg name="world_name" default="$(find mecabot_gazebo)/worlds/obstacle.world"/>
     <!-- Default spawn position -->
     <arg name="x" default="0.0"/>
     <arg name="y" default="0.0"/>
@@ -25,6 +28,9 @@
         <arg name="use_sim_time" value="$(arg use_sim_time)"/>
         <arg name="headless" value="$(arg headless)"/>
     </include>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
   
     <!-- Load the URDF into the ROS Parameter Server -->
     <param name="robot_description" command="$(arg urdf_file)"/>
